@@ -20,3 +20,19 @@ exports.getCategoryById = async (req, res) => {
         res.status(500).json({ message: 'Error fetching category', error });
     }
 }
+
+// exports.getCategoryByName = async (req, res) =>{
+//     try {
+//         console.log("Looking for category with name:", req.params.name);
+//         const category = await categoryModel.findOne({ name: req.params.name });
+        
+//         if (!category) {
+//             return res.status(404).json({ message: 'Category not found' });
+//         }
+
+//         res.json(category);
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: 'Server error' });
+//     }
+// }

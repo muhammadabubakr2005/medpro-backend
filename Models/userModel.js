@@ -17,8 +17,8 @@ const userSchema = new mongoose.Schema(
         country: String,
         label: String, // e.g., "Home", "Office"
       }
-    ]
-    
+    ],
+    // salt: { type: String },
   },
   { timestamps: true }
 

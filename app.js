@@ -2,7 +2,7 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const express = require("express");
 const mongoose = require("mongoose");
-// const cors = require('cors');
+const cors = require('cors');
 const userRoutes=require("./Routes/userRoutes");
 const medicineRoutes=require("./Routes/medicineRoutes");
 const orderRoutes=require("./Routes/orderRoutes");
@@ -19,7 +19,7 @@ const app = express();
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
-// app.use(cors());
+
 mongoose
 .connect(process.env.MONGO_URI) 
 .then(() => console.log("MongoDB connected successfully"))
@@ -30,7 +30,7 @@ mongoose
 app.get("/", (req, res) => {
   res.send("Hello, Express is connected with MongoDB!");
 });
-
+app.use(cors());
 app.use("/users", userRoutes);
 app.use("/medicines", medicineRoutes);
 app.use("/orders", orderRoutes);
