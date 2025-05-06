@@ -9,6 +9,35 @@ const JWT_SECRET = process.env.JWT_SECRET || 'medpro_secret';
 exports.register = async (req, res) => {
   try {
     const { name, email, phone, password } = req.body;
+
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^03[0-9]{9}$/;
+
+    // Required field checks
+    if (!name || !password || (!email && !phone)) {
+      return res.status(400).json({ message: 'Name, password, and either email or phone are required.' });
+    }
+
+    // Name validation
+    if (!nameRegex.test(name)) {
+      return res.status(400).json({ message: 'Name should contain only letters and spaces.' });
+    }
+
+    // Email validation (if provided)
+    if (email && !emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Invalid email format.' });
+    }
+
+    // Phone validation (if provided)
+    if (phone && !phoneRegex.test(phone)) {
+      return res.status(400).json({ message: 'Invalid Pakistani phone number format.' });
+    }
+
+    // Password validation
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Password must be at least 6 characters long.' });
+    }
     const existing = await User.findOne({ $or: [{ email }, { phone }] });
     if (existing) return res.status(400).json({ message: 'User already exists' });
     // const salt=crypto.randomBytes(32).toString('hex');

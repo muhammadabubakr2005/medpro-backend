@@ -14,3 +14,9 @@ exports.verifyToken = (req, res, next) => {
     res.status(401).json({ message: 'Invalid Token' });
   }
 };
+
+
+
+// exports.generateToken = (user) => {
+
+// }
