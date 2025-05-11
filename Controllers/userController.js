@@ -88,7 +88,7 @@ exports.updateProfile = async (req, res) => {
   try {
     const updates = req.body;
     if (updates.password) delete updates.password;
-
+    
     const user = await User.findByIdAndUpdate(req.user.id, updates, {
       new: true,
     }).select('-password');
@@ -176,5 +176,15 @@ exports.resetPassword = async (req, res) => {
     res.json({ message: 'Password reset successful' });
   } catch (error) {
     res.status(500).json({ message: 'Error resetting password', error });
+  }
+};
+
+exports.verifySession = async (req, res) => {
+  try {
+
+    res.json({ message: 'Session is valid', user: req.user });
+  } catch (error) {
+    console.log('Session verification error:', error.stack);  
+    res.status(500).json({ message: 'Server error', error });
   }
 };

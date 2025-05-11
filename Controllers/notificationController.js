@@ -19,16 +19,36 @@ exports.getNotifications = async (req, res) => {
     }
   };
   
+  // exports.createNotification = async (req, res) => {
+  //   try {
+  //     const { userId, title, message, type } = req.body;
+  //     const notification = new Notification({ userId, title, message, type });
+  //     await notification.save();
+  //     res.status(201).json({ message: 'Notification created', notification });
+  //   } catch (error) {
+  //     res.status(500).json({ message: 'Error creating notification', error });
+  //   }
+  // };
+
   exports.createNotification = async (req, res) => {
-    try {
-      const { userId, title, message, type } = req.body;
-      const notification = new Notification({ userId, title, message, type });
-      await notification.save();
-      res.status(201).json({ message: 'Notification created', notification });
-    } catch (error) {
-      res.status(500).json({ message: 'Error creating notification', error });
-    }
-  };
+      try {
+        const { userId, title, message, type ,orderId} = req.body;
+    
+        // Optional: Log the incoming request data
+        console.log('Incoming data:', req.body);
+    
+        const notification = new Notification({ userId, title, message, type,orderId });
+        await notification.save();
+        
+        res.status(201).json({ message: 'Notification created', notification });
+      } catch (error) {
+        console.error('Create Notification Error:', error);  // <-- Log the complete error
+        res.status(500).json({ 
+          message: 'Error creating notification', 
+          error: error.message || 'Unknown error'  // <-- More detailed error
+        });
+      }
+    };
   
   exports.deleteNotification = async (req, res) => {
     try {

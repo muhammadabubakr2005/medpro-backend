@@ -9,15 +9,9 @@ const userSchema = new mongoose.Schema(
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     address: [
-      {
-        _id: false, // if you want to use custom `_id`, set this to true
-        street: String,
-        city: String,
-        postalCode: String,
-        country: String,
-        label: String, // e.g., "Home", "Office"
-      }
+      {type: String, required: true}
     ],
+    image: { type: String },
     // salt: { type: String },
   },
   { timestamps: true }

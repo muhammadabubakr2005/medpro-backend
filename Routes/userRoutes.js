@@ -8,7 +8,7 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.post('/forgot-password', userController.forgotPassword);
 router.post('/reset-password/:token', userController.resetPassword);
-
+router.get('/verifySession',verifyToken,userController.verifySession);
 
 // router.get('/orders', verifyToken, userController.getOrderHistory);
 

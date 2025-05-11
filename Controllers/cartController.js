@@ -36,10 +36,12 @@ exports.getCart = async (req, res) => {
   exports.updateCartItem = async (req, res) => {
     try {
       const { quantity } = req.body;
+      console.log(req.params.id);
       const item = await CartItem.findByIdAndUpdate(req.params.itemId, { quantity }, { new: true });
       if (!item) return res.status(404).json({ message: 'Cart item not found' });
       res.json({ message: 'Cart item updated', item });
     } catch (error) {
+      console.log(error.stack);
       res.status(500).json({ message: 'Error updating cart item', error });
     }
   };
@@ -50,6 +52,7 @@ exports.getCart = async (req, res) => {
       if (!deleted) return res.status(404).json({ message: 'Cart item not found' });
       res.json({ message: 'Cart item removed' });
     } catch (error) {
+      console.log(error.stack);
       res.status(500).json({ message: 'Error removing cart item', error });
     }
   };
