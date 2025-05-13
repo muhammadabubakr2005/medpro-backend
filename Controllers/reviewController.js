@@ -1,5 +1,5 @@
 const Review = require('../Models/reviewModel');
-
+const Medicine = require('../Models/medicineModel');
 exports.addReview = async (req, res) => {
     try {
       const { medicineId, rating, comment } = req.body;
@@ -22,7 +22,8 @@ exports.addReview = async (req, res) => {
   
   exports.getUserReviews = async (req, res) => {
     try {
-      const reviews = await Review.find({ userId: req.user.id });
+      const reviews = await Review.find({ userId: req.user.id }).populate('medicineId', 'name');
+      // console.log(reviews);
       res.json(reviews);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching user reviews', error });
@@ -42,10 +43,13 @@ exports.addReview = async (req, res) => {
   
   exports.deleteReview = async (req, res) => {
     try {
+      // console.log(req.params.id);
       const deleted = await Review.findByIdAndDelete(req.params.id);
+      // console.log(deleted);
       if (!deleted) return res.status(404).json({ message: 'Review not found' });
       res.json({ message: 'Review deleted' });
     } catch (error) {
+      console.log(error.stack);
       res.status(500).json({ message: 'Error deleting review', error });
     }
   };

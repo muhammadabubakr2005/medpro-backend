@@ -1,4 +1,4 @@
-const notification= require('../Models/notificationModel'); // Adjust the path as necessary
+const Notification= require('../Models/notificationModel'); // Adjust the path as necessary
 
 exports.getNotifications = async (req, res) => {
     try {

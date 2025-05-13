@@ -1,6 +1,8 @@
 const Order = require('../Models/orderModel');
 const Medicine = require('../Models/medicineModel');
 const Cart=require('../Models/cartModel');
+const Delivery = require('../Models/deliveryModel');
+const Notification = require('../Models/notificationModel');
 const { updateMany } = require('../Models/userModel');
 
 const paymentMethodsLookup={
@@ -28,6 +30,28 @@ const getCart = async (userId) => {
   } catch (error) {
     console.error('Error fetching cart:', error);
     return [];
+  }
+}
+//will add order in delivery model
+const addOrderToDelivery = async (orderId) => {
+  try {
+    const delivery = new Delivery({ orderId });
+    await delivery.save();
+  } catch (error) {
+    console.error('Error adding order to delivery:', error);
+  }
+}
+
+const addNotification = async (userId, orderId) => {
+  try {
+    const notification = new Notification({
+      userId,
+      orderId,
+      message: `Your order with ID ${orderId} has been placed successfully.`,
+    });
+    await notification.save();
+  } catch (error) {
+    console.error('Error adding notification:', error);
   }
 }
 
@@ -102,6 +126,8 @@ exports.placeOrder = async (req, res) => {
     });
     await order.save();
     if(shouldEmptyCart) clearCart(req.user.id);
+    await addOrderToDelivery(order._id);
+    await addNotification(req.user.id, order._id);
     
     return res.status(200).json({ message: 'Order placed successfully', order });
   } catch (error) {

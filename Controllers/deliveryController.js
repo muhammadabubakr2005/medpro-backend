@@ -1,7 +1,7 @@
 const deliveries= require('../Models/deliveryModel')
 exports.getDeliveries = async (req, res) => {
     try {
-      const deliveries = await Delivery.find().populate('orderId');
+      const deliveries = await deliveries.find().populate('orderId');
       res.json(deliveries);
     } catch (error) {
       res.status(500).json({ message: 'Error fetching deliveries', error });
@@ -11,7 +11,7 @@ exports.getDeliveries = async (req, res) => {
   exports.assignDelivery = async (req, res) => {
     try {
       const { orderId, assignedTo } = req.body;
-      const delivery = new Delivery({ orderId, assignedTo });
+      const delivery = new deliveries({ orderId, assignedTo });
       await delivery.save();
       res.status(201).json({ message: 'Delivery assigned', delivery });
     } catch (error) {
@@ -22,7 +22,7 @@ exports.getDeliveries = async (req, res) => {
   exports.updateDeliveryStatus = async (req, res) => {
     try {
       const { status } = req.body;
-      const updated = await Delivery.findByIdAndUpdate(req.params.id, { status, updatedAt: Date.now() }, { new: true });
+      const updated = await deliveries.findByIdAndUpdate(req.params.id, { status, updatedAt: Date.now() }, { new: true });
       if (!updated) return res.status(404).json({ message: 'Delivery not found' });
       res.json({ message: 'Delivery status updated', updated });
     } catch (error) {
@@ -44,13 +44,16 @@ exports.getDeliveries = async (req, res) => {
 //   };
   
 exports.getDeliveryStatus = async (req, res) => {
+    console.log("getDeliveryStatus");
     try {
-      const { orderId } = req.params;
-      const delivery = await Delivery.findOne({ orderId }).populate('orderId');
+      console.log(req.query);
+      const orderId  = req.query.orderId;
+      const delivery = await deliveries.findOne({ orderId }).populate('orderId');
       if (!delivery) return res.status(404).json({ message: 'Delivery not found' });
-        res.json(delivery);
+        res.json(delivery.status);
     }
     catch (error) {
+      console.log(error.stack);
       res.status(500).json({ message: 'Error fetching delivery status', error });
     }
 }
