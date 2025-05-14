@@ -44,9 +44,9 @@ exports.getDeliveries = async (req, res) => {
 //   };
   
 exports.getDeliveryStatus = async (req, res) => {
-    console.log("getDeliveryStatus");
+    // console.log("getDeliveryStatus");
     try {
-      console.log(req.query);
+      // console.log(req.query);
       const orderId  = req.query.orderId;
       const delivery = await deliveries.findOne({ orderId }).populate('orderId');
       if (!delivery) return res.status(404).json({ message: 'Delivery not found' });

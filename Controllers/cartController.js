@@ -36,7 +36,7 @@ exports.getCart = async (req, res) => {
   exports.updateCartItem = async (req, res) => {
     try {
       const { quantity } = req.body;
-      console.log(req.params.id);
+      // console.log(req.params.id);
       const item = await CartItem.findByIdAndUpdate(req.params.itemId, { quantity }, { new: true });
       if (!item) return res.status(404).json({ message: 'Cart item not found' });
       res.json({ message: 'Cart item updated', item });

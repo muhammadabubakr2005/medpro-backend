@@ -35,7 +35,7 @@ exports.getNotifications = async (req, res) => {
         const { userId, title, message, type ,orderId} = req.body;
     
         // Optional: Log the incoming request data
-        console.log('Incoming data:', req.body);
+        // console.log('Incoming data:', req.body);
     
         const notification = new Notification({ userId, title, message, type,orderId });
         await notification.save();

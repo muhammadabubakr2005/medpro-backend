@@ -22,7 +22,7 @@ const getCart = async (userId) => {
       price: cart.medicineId[0].variants.find(variant => variant.mg === cart.variant.mg).price,
       stock: cart.medicineId[0].variants.find(variant => variant.mg === cart.variant.mg).stock,
     }));
-    console.log("cartItems",cartItems);
+    // console.log("cartItems",cartItems);
     // carts[0].medicineId = {...cartItems};
     
     // console.log("carts[0]",carts[0]);
@@ -74,7 +74,7 @@ exports.placeOrder = async (req, res) => {
 
     if(shouldEmptyCart) medicines = await getCart(req.user.id);
     if (!medicines || medicines.length === 0 || !deliveryAddress || !paymentMethod) {
-      console.log("Validation error");
+      // console.log("Validation error");
       return res.status(400).json({ message: 'Medicines, delivery address, and payment status are required.' });
     }
     let totalAmount = 0;
